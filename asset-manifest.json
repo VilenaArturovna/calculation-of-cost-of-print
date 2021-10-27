@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/calculation-of-cost-of-print/static/css/main.8c8b27cf.chunk.css",
+    "main.js": "/calculation-of-cost-of-print/static/js/main.dae07de8.chunk.js",
+    "main.js.map": "/calculation-of-cost-of-print/static/js/main.dae07de8.chunk.js.map",
+    "runtime-main.js": "/calculation-of-cost-of-print/static/js/runtime-main.7b68eea5.js",
+    "runtime-main.js.map": "/calculation-of-cost-of-print/static/js/runtime-main.7b68eea5.js.map",
+    "static/js/2.367c5e2e.chunk.js": "/calculation-of-cost-of-print/static/js/2.367c5e2e.chunk.js",
+    "static/js/2.367c5e2e.chunk.js.map": "/calculation-of-cost-of-print/static/js/2.367c5e2e.chunk.js.map",
+    "static/js/3.10035f75.chunk.js": "/calculation-of-cost-of-print/static/js/3.10035f75.chunk.js",
+    "static/js/3.10035f75.chunk.js.map": "/calculation-of-cost-of-print/static/js/3.10035f75.chunk.js.map",
+    "index.html": "/calculation-of-cost-of-print/index.html",
+    "static/css/main.8c8b27cf.chunk.css.map": "/calculation-of-cost-of-print/static/css/main.8c8b27cf.chunk.css.map",
+    "static/js/2.367c5e2e.chunk.js.LICENSE.txt": "/calculation-of-cost-of-print/static/js/2.367c5e2e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b68eea5.js",
+    "static/js/2.367c5e2e.chunk.js",
+    "static/css/main.8c8b27cf.chunk.css",
+    "static/js/main.dae07de8.chunk.js"
+  ]
+}
