@@ -72,7 +72,7 @@ const useStyles = makeStyles(() => createStyles({
 export function Printer() {
   const classes = useStyles();
 
-  const [isOpenMainInfo, setIsOpenMainInfo] = useState(false);
+  const [isOpenMainInfo, setIsOpenMainInfo] = useState(true);
   const [isOpenCartridge, setIsOpenCartridge] = useState(false);
   const [isOpenPaperFeedUnit, setIsOpenPaperFeedUnit] = useState(false);
   const [isOpenADFNode, setIsOpenADFNode] = useState(false);
@@ -81,7 +81,7 @@ export function Printer() {
   const [isOpenPinningUnit, setIsOpenPinningUnit] = useState(false);
 
   const [hasResults, setHasResults] = useState(false);
-  const [isOpenResultsWindow, setIsOpenResultsWindow] = useState(true);
+  const [isOpenResultsWindow, setIsOpenResultsWindow] = useState(false);
 
   const formik = useFormik({
     initialValues: {
