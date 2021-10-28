@@ -72,7 +72,7 @@ const useStyles = makeStyles(() => createStyles({
 export function Printer() {
   const classes = useStyles();
 
-  const [isOpenMainInfo, setIsOpenMainInfo] = useState(true);
+  const [isOpenMainInfo, setIsOpenMainInfo] = useState(false);
   const [isOpenCartridge, setIsOpenCartridge] = useState(false);
   const [isOpenPaperFeedUnit, setIsOpenPaperFeedUnit] = useState(false);
   const [isOpenADFNode, setIsOpenADFNode] = useState(false);
