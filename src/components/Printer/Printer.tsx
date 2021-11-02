@@ -7,6 +7,7 @@ import { createStyles, makeStyles } from '@mui/styles';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ReactToPrint from 'react-to-print';
+import { PrinterType, ResponsePrinterType } from './types';
 
 const validationSchema = Yup.object({
   MFDModel: Yup.string().required('Required'),
@@ -69,7 +70,11 @@ const useStyles = makeStyles(() => createStyles({
   },
 }),);
 
-export function Printer() {
+type Props = {
+  note?: ResponsePrinterType
+}
+
+export function Printer({note}: Props) {
   const classes = useStyles();
 
   const [isOpenMainInfo, setIsOpenMainInfo] = useState(true);
@@ -83,100 +88,106 @@ export function Printer() {
   const [hasResults, setHasResults] = useState(false);
   const [isOpenResultsWindow, setIsOpenResultsWindow] = useState(false);
 
+  const initialValues: PrinterType = {
+    MFDModel: note?.fields.MFDModel || '',
+    resource: note?.fields.resource || 0,
+    fillingOutSheet: note?.fields.fillingOutSheet || 5,
+
+    partNumberCartridge: note?.fields.partNumberCartridge || '',
+    resourceCartridge: note?.fields.resourceCartridge || 0,
+    priceCartridge: note?.fields.priceCartridge || 0,
+    partNumberCartridge2: note?.fields.partNumberCartridge2 || '',
+    resourceCartridge2: note?.fields.resourceCartridge2 || 0,
+    priceCartridge2: note?.fields.priceCartridge2 || 0,
+    checkboxCartridge: note?.fields.checkboxCartridge || false,
+
+    partNumberPaperFeedUnit1: note?.fields.partNumberPaperFeedUnit1 || '',
+    resourcePaperFeedUnit1: note?.fields.resourcePaperFeedUnit1 || 0,
+    pricePaperFeedUnit1: note?.fields.pricePaperFeedUnit1 || 0,
+    partNumberPaperFeedUnit2: note?.fields.partNumberPaperFeedUnit2 || '',
+    resourcePaperFeedUnit2: note?.fields.resourcePaperFeedUnit2 || 0,
+    pricePaperFeedUnit2: note?.fields.pricePaperFeedUnit2 || 0,
+    partNumberPaperFeedUnit3: note?.fields.partNumberPaperFeedUnit3 || '',
+    resourcePaperFeedUnit3: note?.fields.resourcePaperFeedUnit3 || 0,
+    pricePaperFeedUnit3: note?.fields.pricePaperFeedUnit3 || 0,
+
+    partNumberADFNode1: note?.fields.partNumberADFNode1 || '',
+    resourceADFNode1: note?.fields.resourceADFNode1 || 0,
+    priceADFNode1: note?.fields.priceADFNode1 || 0,
+    partNumberADFNode2: note?.fields.partNumberADFNode2 || '',
+    resourceADFNode2: note?.fields.resourceADFNode2 || 0,
+    priceADFNode2: note?.fields.priceADFNode2 || 0,
+    partNumberADFNode3: note?.fields.partNumberADFNode3 || '',
+    resourceADFNode3: note?.fields.resourceADFNode3 || 0,
+    priceADFNode3: note?.fields.priceADFNode3 || 0,
+
+    partNumberPhotoreceptorUnit1: note?.fields.partNumberPhotoreceptorUnit1 || '',
+    resourcePhotoreceptorUnit1: note?.fields.resourcePhotoreceptorUnit1 || 0,
+    pricePhotoreceptorUnit1: note?.fields.pricePhotoreceptorUnit1 || 0,
+    partNumberPhotoreceptorUnit2: note?.fields.partNumberPhotoreceptorUnit2 || '',
+    resourcePhotoreceptorUnit2: note?.fields.resourcePhotoreceptorUnit2 || 0,
+    pricePhotoreceptorUnit2: note?.fields.pricePhotoreceptorUnit2 || 0,
+    partNumberPhotoreceptorUnit3: note?.fields.partNumberPhotoreceptorUnit3 || '',
+    resourcePhotoreceptorUnit3: note?.fields.resourcePhotoreceptorUnit3 || 0,
+    pricePhotoreceptorUnit3: note?.fields.pricePhotoreceptorUnit3 || 0,
+    partNumberPhotoreceptorUnit4: note?.fields.partNumberPhotoreceptorUnit4 || '',
+    resourcePhotoreceptorUnit4: note?.fields.resourcePhotoreceptorUnit4 || 0,
+    pricePhotoreceptorUnit4: note?.fields.pricePhotoreceptorUnit4 || 0,
+    partNumberPhotoreceptorUnitFull: note?.fields.partNumberPhotoreceptorUnitFull || '',
+    resourcePhotoreceptorUnitFull: note?.fields.resourcePhotoreceptorUnitFull || 0,
+    pricePhotoreceptorUnitFull: note?.fields.pricePhotoreceptorUnitFull || 0,
+    checkboxPhotoreceptorUnit: note?.fields.checkboxPhotoreceptorUnit || false,
+
+    partNumberDevelopmentBlock1: note?.fields.partNumberDevelopmentBlock1 || '',
+    resourceDevelopmentBlock1: note?.fields.resourceDevelopmentBlock1 || 0,
+    priceDevelopmentBlock1: note?.fields.priceDevelopmentBlock1 || 0,
+    partNumberDevelopmentBlock2: note?.fields.partNumberDevelopmentBlock2 || '',
+    resourceDevelopmentBlock2: note?.fields.resourceDevelopmentBlock2 || 0,
+    priceDevelopmentBlock2: note?.fields.priceDevelopmentBlock2 || 0,
+    partNumberDevelopmentBlock3: note?.fields.partNumberDevelopmentBlock3 || '',
+    resourceDevelopmentBlock3: note?.fields.resourceDevelopmentBlock3 || 0,
+    priceDevelopmentBlock3: note?.fields.priceDevelopmentBlock3 || 0,
+    partNumberDevelopmentBlock4: note?.fields.partNumberDevelopmentBlock4 || '',
+    resourceDevelopmentBlock4: note?.fields.resourceDevelopmentBlock4 || 0,
+    priceDevelopmentBlock4: note?.fields.priceDevelopmentBlock4 || 0,
+    partNumberDevelopmentBlockFull: note?.fields.partNumberDevelopmentBlockFull || '',
+    resourceDevelopmentBlockFull: note?.fields.resourceDevelopmentBlockFull || 0,
+    priceDevelopmentBlockFull: note?.fields.priceDevelopmentBlockFull || 0,
+    checkboxDevelopmentBlock: note?.fields.checkboxDevelopmentBlock || false,
+
+    partNumberPinningUnit1: note?.fields.partNumberPinningUnit1 || '',
+    resourcePinningUnit1: note?.fields.resourcePinningUnit1 || 0,
+    pricePinningUnit1: note?.fields.pricePinningUnit1 || 0,
+    partNumberPinningUnit2: note?.fields.partNumberPinningUnit2 || '',
+    resourcePinningUnit2: note?.fields.resourcePinningUnit2 || 0,
+    pricePinningUnit2: note?.fields.pricePinningUnit2 || 0,
+    partNumberPinningUnit3: note?.fields.partNumberPinningUnit3 || '',
+    resourcePinningUnit3: note?.fields.resourcePinningUnit3 || 0,
+    pricePinningUnit3: note?.fields.pricePinningUnit3 || 0,
+    partNumberPinningUnit4: note?.fields.partNumberPinningUnit4 || '',
+    resourcePinningUnit4: note?.fields.resourcePinningUnit4 || 0,
+    pricePinningUnit4: note?.fields.pricePinningUnit4 || 0,
+    partNumberPinningUnit5: note?.fields.partNumberPinningUnit5 || '',
+    resourcePinningUnit5: note?.fields.resourcePinningUnit5 || 0,
+    pricePinningUnit5: note?.fields.pricePinningUnit5 || 0,
+    partNumberPinningUnit6: note?.fields.partNumberPinningUnit6 || '',
+    resourcePinningUnit6: note?.fields.resourcePinningUnit6 || 0,
+    pricePinningUnit6: note?.fields.pricePinningUnit6 || 0,
+    partNumberPinningUnitFull: note?.fields.partNumberPinningUnitFull || '',
+    resourcePinningUnitFull: note?.fields.resourcePinningUnitFull || 0,
+    pricePinningUnitFull: note?.fields.pricePinningUnitFull || 0,
+    checkboxPinningUnit: note?.fields.checkboxPinningUnit || false,
+  }
+
   const formik = useFormik({
-    initialValues: {
-      MFDModel: '',
-      resource: undefined,
-      fillingOutSheet: 5,
-
-      partNumberCartridge: '',
-      resourceCartridge: undefined,
-      priceCartridge: undefined,
-
-      partNumberPaperFeedUnit1: '',
-      resourcePaperFeedUnit1: undefined,
-      pricePaperFeedUnit1: undefined,
-      partNumberPaperFeedUnit2: '',
-      resourcePaperFeedUnit2: undefined,
-      pricePaperFeedUnit2: undefined,
-      partNumberPaperFeedUnit3: '',
-      resourcePaperFeedUnit3: undefined,
-      pricePaperFeedUnit3: undefined,
-
-      partNumberADFNode1: '',
-      resourceADFNode1: undefined,
-      priceADFNode1: undefined,
-      partNumberADFNode2: '',
-      resourceADFNode2: undefined,
-      priceADFNode2: undefined,
-      partNumberADFNode3: '',
-      resourceADFNode3: undefined,
-      priceADFNode3: undefined,
-
-      partNumberPhotoreceptorUnit1: '',
-      resourcePhotoreceptorUnit1: undefined,
-      pricePhotoreceptorUnit1: undefined,
-      partNumberPhotoreceptorUnit2: '',
-      resourcePhotoreceptorUnit2: undefined,
-      pricePhotoreceptorUnit2: undefined,
-      partNumberPhotoreceptorUnit3: '',
-      resourcePhotoreceptorUnit3: undefined,
-      pricePhotoreceptorUnit3: undefined,
-      partNumberPhotoreceptorUnit4: '',
-      resourcePhotoreceptorUnit4: undefined,
-      pricePhotoreceptorUnit4: undefined,
-      partNumberPhotoreceptorUnitFull: '',
-      resourcePhotoreceptorUnitFull: undefined,
-      pricePhotoreceptorUnitFull: undefined,
-      checkboxPhotoreceptorUnit: false,
-
-      partNumberDevelopmentBlock1: '',
-      resourceDevelopmentBlock1: undefined,
-      priceDevelopmentBlock1: undefined,
-      partNumberDevelopmentBlock2: '',
-      resourceDevelopmentBlock2: undefined,
-      priceDevelopmentBlock2: undefined,
-      partNumberDevelopmentBlock3: '',
-      resourceDevelopmentBlock3: undefined,
-      priceDevelopmentBlock3: undefined,
-      partNumberDevelopmentBlock4: '',
-      resourceDevelopmentBlock4: undefined,
-      priceDevelopmentBlock4: undefined,
-      partNumberDevelopmentBlockFull: '',
-      resourceDevelopmentBlockFull: undefined,
-      priceDevelopmentBlockFull: undefined,
-      checkboxDevelopmentBlock: false,
-
-      partNumberPinningUnit1: '',
-      resourcePinningUnit1: undefined,
-      pricePinningUnit1: undefined,
-      partNumberPinningUnit2: '',
-      resourcePinningUnit2: undefined,
-      pricePinningUnit2: undefined,
-      partNumberPinningUnit3: '',
-      resourcePinningUnit3: undefined,
-      pricePinningUnit3: undefined,
-      partNumberPinningUnit4: '',
-      resourcePinningUnit4: undefined,
-      pricePinningUnit4: undefined,
-      partNumberPinningUnit5: '',
-      resourcePinningUnit5: undefined,
-      pricePinningUnit5: undefined,
-      partNumberPinningUnit6: '',
-      resourcePinningUnit6: undefined,
-      pricePinningUnit6: undefined,
-      partNumberPinningUnitFull: '',
-      resourcePinningUnitFull: undefined,
-      pricePinningUnitFull: undefined,
-      checkboxPinningUnit: false,
-    }, validationSchema: validationSchema, onSubmit: () => {
+    initialValues, validationSchema: validationSchema, onSubmit: () => {
       setHasResults(true);
       setIsOpenResultsWindow(true);
     }
   });
 
   // @ts-ignore
-  const resultCartridge = (formik.values.priceCartridge / formik.values.resourceCartridge) * (5 / formik.values.fillingOutSheet);
+  const resultCartridge = (formik.values.priceCartridge / formik.values.resourceCartridge) * (5 / formik.values.fillingOutSheet) + (formik.values.checkboxCartridge ? (formik.values.priceCartridge2 / formik.values.priceCartridge2) : 0);
   // @ts-ignore
   const resultPaperFeedUnit = (formik.values.pricePaperFeedUnit1 / formik.values.resourcePaperFeedUnit1) + (formik.values.pricePaperFeedUnit2 / formik.values.resourcePaperFeedUnit2) + (formik.values.pricePaperFeedUnit3 / formik.values.resourcePaperFeedUnit3);
   // @ts-ignore
@@ -371,15 +382,59 @@ export function Printer() {
     formik.values.pricePinningUnitFull
   ]
   const cartridge = [
+    [
     'Заправка',
     formik.values.partNumberCartridge,
     formik.values.resourceCartridge,
-    (formik.values.resource || 0) / ((formik.values.resourceCartridge || 1) * 5 / 8),
+    (formik.values.resource || 0) / ((formik.values.resourceCartridge || 1) * (5 / formik.values.fillingOutSheet)),
     formik.values.priceCartridge
+  ],
+    [
+      'Чип',
+      formik.values.partNumberCartridge2,
+      formik.values.resourceCartridge2,
+      (formik.values.resource || 0) / (formik.values.resourceCartridge2 || 1),
+      formik.values.priceCartridge2
+    ],
   ]
 
   const table1 = useRef(null)
   const table2 = useRef(null)
+
+  const createNote = async () => {
+    try {
+      await fetch('/.netlify/functions/notes', {
+        method: 'POST',
+        body: JSON.stringify({...formik.values }),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const updateNote = async () => {
+    const obj = {
+      id: note?.id, fields: {...formik.values}
+    }
+    const a = JSON.stringify([obj])
+    console.log(a);
+    try {
+      await fetch('/.netlify/functions/notes', {
+        method: 'PUT',
+        // @ts-ignore
+        body: a,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const saveNote = async () => {
+    if (!note?.id) {
+      await createNote()
+    } else {
+      await updateNote()
+    }
+  }
 
   return (<Root className={classes.root}>
     {!isOpenResultsWindow && <Container>
@@ -392,8 +447,8 @@ export function Printer() {
                   {isOpenMainInfo && <>
                       <TextField variant="filled" label="Модель" size="small"
                                  {...formik.getFieldProps('MFDModel')}/>
-                      <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps('resource')}/>
-                      <TextField variant="filled" label="Заполнение листа" size="small" {...formik.getFieldProps('fillingOutSheet')}/>
+                      <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps('resource')}/>
+                      <TextField type='number' variant="filled" label="Заполнение листа" size="small" {...formik.getFieldProps('fillingOutSheet')}/>
                   </>}
                 </CustomCardContent>
               {isOpenMainInfo && <CardActions>
@@ -417,10 +472,25 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberCartridge')}/>
-                          <TextField variant="filled" label="Ресурс"
+                          <TextField type='number' variant="filled" label="Ресурс"
                                      size="small" {...formik.getFieldProps('resourceCartridge')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceCartridge')}/>
+                      </Fields>
+                      <Fields>
+                          <Checkbox {...formik.getFieldProps('checkboxCartridge')}/>
+                          <SubTitle>
+                              Чип
+                          </SubTitle>
+                      </Fields>
+                      <Fields>
+                          <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
+                            'partNumberCartridge2')} disabled={!formik.values.checkboxCartridge}/>
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                            'resourceCartridge2')} disabled={!formik.values.checkboxCartridge}/>
+                          <TextField type='number' variant="filled" label="Цена"
+                                     size="small" {...formik.getFieldProps('priceCartridge2')}
+                                     disabled={!formik.values.checkboxCartridge}/>
                       </Fields>
                   </>}
                 </CustomCardContent>
@@ -445,9 +515,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPaperFeedUnit1')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePaperFeedUnit1')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePaperFeedUnit1')}/>
                       </Fields>
                       <SubTitle>
@@ -456,9 +526,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPaperFeedUnit2')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePaperFeedUnit2')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePaperFeedUnit2')}/>
                       </Fields>
                       <SubTitle>
@@ -467,9 +537,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPaperFeedUnit3')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePaperFeedUnit3')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePaperFeedUnit3')}/>
                       </Fields>
                   </>}
@@ -495,9 +565,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberADFNode1')}/>
-                          <TextField variant="filled" label="Ресурс"
+                          <TextField type='number' variant="filled" label="Ресурс"
                                      size="small" {...formik.getFieldProps('resourceADFNode1')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('priceADFNode1')}/>
                       </Fields>
                       <SubTitle>
@@ -506,9 +576,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberADFNode2')}/>
-                          <TextField variant="filled" label="Ресурс"
+                          <TextField type='number' variant="filled" label="Ресурс"
                                      size="small" {...formik.getFieldProps('resourceADFNode2')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('priceADFNode2')}/>
                       </Fields>
                       <SubTitle>
@@ -517,9 +587,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberADFNode3')}/>
-                          <TextField variant="filled" label="Ресурс"
+                          <TextField type='number' variant="filled" label="Ресурс"
                                      size="small" {...formik.getFieldProps('resourceADFNode3')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('priceADFNode3')}/>
                       </Fields>
                   </>}
@@ -545,9 +615,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPhotoreceptorUnit1')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePhotoreceptorUnit1')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePhotoreceptorUnit1')}/>
                       </Fields>
                       <SubTitle>
@@ -556,9 +626,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPhotoreceptorUnit2')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePhotoreceptorUnit2')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePhotoreceptorUnit2')}/>
                       </Fields>
                       <SubTitle>
@@ -567,9 +637,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPhotoreceptorUnit3')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePhotoreceptorUnit3')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePhotoreceptorUnit3')}/>
                       </Fields>
                       <Fields>
@@ -581,9 +651,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPhotoreceptorUnit4')} disabled={!formik.values.checkboxPhotoreceptorUnit}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePhotoreceptorUnit4')} disabled={!formik.values.checkboxPhotoreceptorUnit}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePhotoreceptorUnit4')} disabled={!formik.values.checkboxPhotoreceptorUnit}/>
                       </Fields>
                       <SubTitle>
@@ -592,9 +662,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPhotoreceptorUnitFull')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePhotoreceptorUnitFull')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePhotoreceptorUnitFull')}/>
                       </Fields>
                   </>}
@@ -620,9 +690,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberDevelopmentBlock1')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourceDevelopmentBlock1')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceDevelopmentBlock1')}/>
                       </Fields>
                       <SubTitle>
@@ -631,9 +701,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberDevelopmentBlock2')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourceDevelopmentBlock2')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceDevelopmentBlock2')}/>
                       </Fields>
                       <SubTitle>
@@ -642,9 +712,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberDevelopmentBlock3')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourceDevelopmentBlock3')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceDevelopmentBlock3')}/>
                       </Fields>
                       <Fields>
@@ -656,9 +726,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberDevelopmentBlock4')} disabled={!formik.values.checkboxDevelopmentBlock}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourceDevelopmentBlock4')} disabled={!formik.values.checkboxDevelopmentBlock}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceDevelopmentBlock4')} disabled={!formik.values.checkboxDevelopmentBlock}/>
                       </Fields>
                       <SubTitle>
@@ -667,9 +737,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberDevelopmentBlockFull')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourceDevelopmentBlockFull')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'priceDevelopmentBlockFull')}/>
                       </Fields>
                   </>}
@@ -695,9 +765,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit1')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit1')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit1')}/>
                       </Fields>
                       <SubTitle>
@@ -706,9 +776,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit2')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit2')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit2')}/>
                       </Fields>
                       <SubTitle>
@@ -717,9 +787,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit3')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit3')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit3')}/>
                       </Fields>
                       <SubTitle>
@@ -728,9 +798,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit4')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit4')}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit4')}/>
                       </Fields>
                       <SubTitle>
@@ -740,9 +810,9 @@ export function Printer() {
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit5')}
                           />
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit5')} />
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit5')}
                           />
                       </Fields>
@@ -755,9 +825,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnit6')} disabled={!formik.values.checkboxPinningUnit}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnit6')} disabled={!formik.values.checkboxPinningUnit}/>
-                          <TextField variant="filled" label="Цена"
+                          <TextField type='number' variant="filled" label="Цена"
                                      size="small" {...formik.getFieldProps('pricePinningUnit6')}
                                      disabled={!formik.values.checkboxPinningUnit}/>
                       </Fields>
@@ -767,9 +837,9 @@ export function Printer() {
                       <Fields>
                           <TextField variant="filled" label="Part number" size="small" {...formik.getFieldProps(
                             'partNumberPinningUnitFull')}/>
-                          <TextField variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Ресурс" size="small" {...formik.getFieldProps(
                             'resourcePinningUnitFull')}/>
-                          <TextField variant="filled" label="Цена" size="small" {...formik.getFieldProps(
+                          <TextField type='number' variant="filled" label="Цена" size="small" {...formik.getFieldProps(
                             'pricePinningUnitFull')}/>
                       </Fields>
                   </>}
@@ -777,6 +847,9 @@ export function Printer() {
               {isOpenPinningUnit && <CardActions>
                   <Button type="submit">
                       Сделать расчет
+                  </Button>
+                  <Button onClick={saveNote}>
+                      Сохранить расчет
                   </Button>
               </CardActions>}
             </Card>
@@ -799,7 +872,11 @@ export function Printer() {
                     <TableBody>
                         <TableRow><TableTitle>Картридж</TableTitle></TableRow>
                         <TableRow>
-                          {cartridge.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
+                          {cartridge.map((item, index) => {
+                            return <TableRow key={index}>
+                              {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
+                            </TableRow>;
+                          })}
                         </TableRow>
                         <TableRow><TableTitle>Узел подачи бумаги</TableTitle></TableRow>
                       {tablePaperFeedUnit.map((item, index) => {
@@ -884,6 +961,7 @@ export function Printer() {
             </Wrapper>
             <Fields>
                 <Button variant='outlined' size='small' onClick={() => setIsOpenResultsWindow(false)}>Вернуться к расчетам</Button>
+                <Button variant='outlined' size='small' onClick={saveNote}>Сохранить расчет</Button>
                 <Button variant='outlined' size='small' onClick={() => formik.resetForm()}>Сбросить форму</Button>
                 <ReactToPrint trigger={() => <Button variant='outlined' size='small'>Печать</Button>} content={() => table2.current} />
             </Fields>
