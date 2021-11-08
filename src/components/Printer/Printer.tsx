@@ -981,8 +981,8 @@ export function Printer({ note, returnToListNotes }: Props) {
             <Wrapper ref={table1}>
                 <Title>{formik.values.MFDModel}</Title>
                 <Title>Ресурс: {formik.values.resource}</Title>
-                <Title>Заполнение листа: {formik.values.fillingOutSheet}%</Title>
-                <Title>Стоимость отпечатка: {result.toFixed(2)} ₽</Title>
+                <Title $line={true}>Заполнение листа: {formik.values.fillingOutSheet}%</Title>
+                <Title $line={true}>Стоимость отпечатка: {result.toFixed(2)} ₽</Title>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -992,39 +992,39 @@ export function Printer({ note, returnToListNotes }: Props) {
                     <TableBody>
                         <TableRow><TableTitle>Картридж</TableTitle></TableRow>
                       {cartridge.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableRow><TableTitle>Узел подачи бумаги</TableTitle></TableRow>
                       {tablePaperFeedUnit.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableRow><TableTitle>Узел ADF</TableTitle></TableRow>
                       {tableADFNode.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableRow><TableTitle>Блок Фоторецептора</TableTitle></TableRow>
                       {tablePhotoreceptorUnit.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableRow><TableTitle>Блок проявки</TableTitle></TableRow>
                       {tableDevelopmentBlock.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableRow><TableTitle>Блок закрепления</TableTitle></TableRow>
                       {tablePinningUnit.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                     </TableBody>
                 </Table>
@@ -1038,8 +1038,8 @@ export function Printer({ note, returnToListNotes }: Props) {
             <Wrapper ref={table2}>
                 <Title>{formik.values.MFDModel}</Title>
                 <Title>Ресурс: {formik.values.resource}</Title>
-                <Title>Заполнение листа: {formik.values.fillingOutSheet}%</Title>
-                <Title>Стоимость отпечатка: {resultFull.toFixed(2)} ₽</Title>
+                <Title $line={true}>Заполнение листа: {formik.values.fillingOutSheet}%</Title>
+                <Title $line={true}>Стоимость отпечатка: {resultFull.toFixed(2)} ₽</Title>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -1048,33 +1048,35 @@ export function Printer({ note, returnToListNotes }: Props) {
                     </TableHead>
                     <TableBody>
                         <TableTitle>Картридж</TableTitle>
-                        <TableRow>
-                          {cartridge.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>
+                      {cartridge.map((item, index) => {
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
+                          {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
+                        </CustomTableRow>;
+                      })}
                         <TableTitle>Узел подачи бумаги</TableTitle>
                       {tablePaperFeedUnit.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableTitle>Узел ADF</TableTitle>
                       {tableADFNode.map((item, index) => {
-                        return <TableRow key={index}>
+                        return <CustomTableRow key={index} $isEmpty={item.includes('')}>
                           {item.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>;
+                        </CustomTableRow>;
                       })}
                         <TableTitle>Блок Фоторецептора</TableTitle>
-                        <TableRow>
+                        <CustomTableRow $isEmpty={photoreceptorUnit.includes('')}>
                           {photoreceptorUnit.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>
+                        </CustomTableRow>
                         <TableTitle>Блок проявки</TableTitle>
-                        <TableRow>
+                        <CustomTableRow $isEmpty={developmentBlock.includes('')}>
                           {developmentBlock.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>
+                        </CustomTableRow>
                         <TableTitle>Блок закрепления</TableTitle>
-                        <TableRow>
+                        <CustomTableRow $isEmpty={pinningUnit.includes('')}>
                           {pinningUnit.map((item, index) => (<TableCell key={index}>{item}</TableCell>))}
-                        </TableRow>
+                        </CustomTableRow>
                     </TableBody>
                 </Table>
             </Wrapper>
@@ -1108,10 +1110,11 @@ const CustomCardContent = styled(CardContent)`
   flex-direction: column;
   width: 650px;
 `;
-const Title = styled.div`
+const Title = styled.div<{$line?: boolean}>`
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 10px;
+  ${({$line}) => $line && `background-color: bisque`}
 `;
 const Fields = styled.div`
   display: flex;
@@ -1126,3 +1129,6 @@ const TableTitle = styled.div`
   font-weight: 600;
   margin: 10px 10px 0;
 `;
+const CustomTableRow = styled(TableRow)<{$isEmpty?: boolean}>`
+  ${({$isEmpty}) => $isEmpty && `background-color: lightpink`}
+`
