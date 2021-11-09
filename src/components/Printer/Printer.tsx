@@ -204,8 +204,8 @@ export function Printer({ note, returnToListNotes }: Props) {
   });
 
   //расчеты
-  const resultCartridge = (formik.values.priceCartridge / (formik.values.resourceCartridge * (5 / formik.values.fillingOutSheet))) + (formik.values.checkboxCartridge
-    ? (formik.values.priceCartridge2 / (formik.values.priceCartridge2 * (5 / formik.values.fillingOutSheet)))
+  const resultCartridge = (formik.values.priceCartridge / (formik.values.resourceCartridge ) * (5 / formik.values.fillingOutSheet)) + (formik.values.checkboxCartridge
+    ? (formik.values.priceCartridge2 / (formik.values.resourceCartridge2) * (5 / formik.values.fillingOutSheet))
     : 0);
   const resultPaperFeedUnit = (formik.values.pricePaperFeedUnit1 / formik.values.resourcePaperFeedUnit1) + (formik.values.pricePaperFeedUnit2 / formik.values.resourcePaperFeedUnit2) + (formik.values.pricePaperFeedUnit3 / formik.values.resourcePaperFeedUnit3);
   const resultADFNode = (formik.values.priceADFNode1 / formik.values.resourceADFNode1) + (formik.values.priceADFNode2 / formik.values.resourceADFNode2) + (formik.values.priceADFNode3 / formik.values.resourceADFNode3);
@@ -393,7 +393,7 @@ export function Printer({ note, returnToListNotes }: Props) {
       'Чип',
       formik.values.partNumberCartridge2,
       formik.values.resourceCartridge2,
-      (formik.values.resource || 0) / (formik.values.resourceCartridge2 || 1),
+      (formik.values.resource || 0) / ((formik.values.resourceCartridge2 || 1) * (5 / formik.values.fillingOutSheet)),
       formik.values.priceCartridge2
     ],
   ];
@@ -443,10 +443,13 @@ export function Printer({ note, returnToListNotes }: Props) {
             <Card>
                 <CardActions>
                     <Button onClick={returnToListNotes}>
-                        Вернуться к списку моделей МФУ
+                        Вернуться к списку МФУ
                     </Button>
                     <Button onClick={saveNote}>
                         Сохранить расчет
+                    </Button>
+                    <Button onClick={createNote}>
+                        Сохранить расчет как новый
                     </Button>
                 </CardActions>
             </Card>
